@@ -1,0 +1,56 @@
+---
+title: "Women’s EDA"
+author: "Colin Doms"
+date: "2/17/2019"
+output: html_document
+---
+## Exploratory Data Analysis for the Women's Tournament
+
+This is the Markdown file for exploring the data and hypotheses for the Women's NCAA Tournament.
+
+Some hypotheses:
+
+1. Teams get better as the season progresses.
+2. A great offense and a great defense should be the best team. Causal factors:
+      -pace/fitness of both teams (tire the other team out or they both can keep up)
+      -three pointers made
+      -total rebounds
+      -avg. turnovers committed
+      -avg. turnovers produced
+      -free throw percentage
+      -blocks
+      -point difference
+      -free throws attempted by other team
+      -field goals attempted by both teams
+      -differences in some of these metrics?
+      
+      
+3. Geographical distance matters for a couple reasons:
+      -Fans: Teams playing closer to home can have more fans at the games
+      -Refs: Refs feel social pressure and favor the team closer to home
+      -Health: It's harder to perform physically when you have to travel a long distance
+
+
+```{r setup, echo = FALSE, include = FALSE}
+## Read in regular season data
+library(tidyverse)
+reg_season <- read.csv("WRegularSeasonDetailedResults.csv", stringsAsFactors = FALSE)
+str(reg_season)
+
+sum(is.na(reg_season))
+
+reg_season %>%
+  arrange(Season, DayNum) %>%
+
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
