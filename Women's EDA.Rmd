@@ -39,8 +39,34 @@ str(reg_season)
 
 sum(is.na(reg_season))
 
-reg_season %>%
-  arrange(Season, DayNum) %>%
+reg_season$low_team <- do.call(pmin, reg_season[,c("WTeamID", "LTeamID")])
+reg_season$high_team <- do.call(pmax, reg_season[,c("WTeamID", "LTeamID")])
+
+reg_season$low_win <- ifelse(reg_season$low_team == reg_season$WTeamID, 1, 0)
+
+reg_season$low_loc <- ifelse(reg_season$low_win == 1, print(reg_season$WLoc),
+                             ifelse(reg_season$WLoc == "H", "A",
+                                    ifelse(reg_season$WLoc == "A", "H", "N")))
+
+reg_season <- subset(reg_season, select = -WLoc)
+
+win_metrics <- reg_season[reg_season$low_win == 1,]
+loss_metrics <- reg_season[reg_season$low_win == 0,]
+
+
+colnames(win_metrics) <- gsub("W", "low_team_", colnames(win_metrics))
+colnames(win_metrics) <- gsub("L", "high_team_", colnames(win_metrics))
+
+colnames(loss_metrics) <- gsub("W", "high_team_", colnames(loss_metrics))
+colnames(loss_metrics) <- gsub("L", "low_team_", colnames(loss_metrics))
+
+win_metrics <- win_metrics[ , order(names(win_metrics))]
+
+loss_metrics <- loss_metrics[ , order(names(loss_metrics))]
+
+identical(names(win_metrics), names(loss_metrics))
+
+new_regs <- rbind(loss_metrics, win_metrics)
 
 
 ```
